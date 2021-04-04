@@ -13,11 +13,11 @@ export enum VoteType {
   /**
    * Vote Value incremented by 1. Upwards the reddit post value.
    */
-  UPVOTE = 1 ,
+  UPVOTE,
 
   /**
    * Vote Value decremented by 1. Downwards the reddit post value.
    */
-  DOWNVOTE = -1
+  DOWNVOTE
 
 }

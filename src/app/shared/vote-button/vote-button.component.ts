@@ -36,6 +36,7 @@ export class VoteButtonComponent implements OnInit {
   isUpVoted: boolean;
   faArrowUp: IconDefinition = faArrowUp;
   faArrowDown: IconDefinition = faArrowDown;
+  isVotingInprogress = false;
 
   /**
    * Creates an instance of VoteButtonComponent by injecting
@@ -66,7 +67,7 @@ export class VoteButtonComponent implements OnInit {
    */
   upvotePost(): void {
     this.registerVote(VoteType.UPVOTE);
-  }
+      }
 
   /**
    * downvotePost registers down vote for current post.
@@ -75,7 +76,6 @@ export class VoteButtonComponent implements OnInit {
    */
   downvotePost(): void {
     this.registerVote(VoteType.DOWNVOTE);
-
   }
 
   /**
@@ -87,6 +87,8 @@ export class VoteButtonComponent implements OnInit {
    * @param {VoteType} voteTypeValue
    */
   registerVote(voteTypeValue: VoteType): void {
+    if(!this.isVotingInprogress){
+    this.isVotingInprogress = true;
     const registerVoteRequestPayload: VoteModel = {
       voteType: voteTypeValue,
       postId: this.post.postId
@@ -98,15 +100,18 @@ export class VoteButtonComponent implements OnInit {
       }, () => {
         this.toastrService.error('Vote Registration Failed! Please try again');
       });
+      this.isVotingInprogress = false;
+    }
   }
 
   /**
    * updateVoteCount methods updates the vote count for the post based on vote type.
    *
    * @author Santhosh Kumar J
-   * @param {VoteType} voteTypeValue
+   * @param {VoteType} voteType
    */
-  updateVoteCount(voteTypeValue: VoteType): void {
+  updateVoteCount(voteType: VoteType): void {
+    const voteTypeValue = voteType === VoteType.UPVOTE? 1 : -1;
     this.post.voteCount = this.post.voteCount + voteTypeValue;
   }
 
